@@ -1,1 +1,1 @@
-File to clone repository
+Basic skeleton
