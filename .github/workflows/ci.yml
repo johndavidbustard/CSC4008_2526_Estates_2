@@ -5,27 +5,45 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      PYTHONPATH: ${{ github.workspace }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.10'
           cache: 'pip'
+      - name: Show Python env
+        run: |
+          set -euo pipefail
+          python --version
+          pip --version
+          python -c "import sys,platform; print('Platform:', platform.platform()); print('PY:', sys.version)"
       - name: Install dependencies
         run: |
+          set -euo pipefail
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; else echo "No requirements.txt found"; fi
       - name: Install dev tools (pytest, pre-commit)
         run: |
+          set -euo pipefail
           pip install pytest pre-commit
+      - name: Show top installed packages
+        run: |
+          set -euo pipefail
+          pip list | head -n 50
       - name: Run pre-commit (lint/format)
-        run: pre-commit run --all-files
+        run: |
+          set -euo pipefail
+          pre-commit run --all-files -v
       - name: Sanity check – import app
         run: |
+          set -euo pipefail
           python - << 'PY'
           import importlib
           m = importlib.import_module('wsgi')
@@ -36,7 +54,9 @@ jobs:
         env:
           FLASK_APP: wsgi:app
         run: |
-          python -m flask routes | head -n 10
+          set -euo pipefail
+          python -m flask routes | head -n 20
       - name: Run tests
         run: |
-          pytest -q
+          set -euo pipefail
+          python -m pytest -q -rA --maxfail=1
