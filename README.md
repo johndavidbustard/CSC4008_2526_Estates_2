@@ -8,18 +8,22 @@
 - Templates: `app/templates/`
 - Static files: `app/static/`
 
+## Quick start
+
+- Install dependencies:
+  - `pip install -r requirements.txt`
+- Run the app:
+  - `python -m flask run`
+
+For full developer setup, see [CONTRIBUTING.md](CONTRIBUTING.md).
+
 ## Local setup
 
-- Create `.env` if you need local secrets (gitignored).
-- Create `.flaskenv` for Flask CLI (gitignored). Example:
+- Optional local config: use `.env` for secrets and `.flaskenv` for Flask CLI (both are gitignored). Example:
 	- FLASK_APP=wsgi:app
 	- FLASK_DEBUG=1
-- Install pre-commit and enable hooks:
-	- pip install pre-commit
-	- pre-commit install
 - A local virtual environment folder like `.venv/` is gitignored.
 
 ## Quality checks
 
-- Pre-commit (Ruff lint/format): `pre-commit install` (should run automatically)
-- Tests: `pytest -q`
+- Linting/formatting and tests are documented in [CONTRIBUTING.md](CONTRIBUTING.md).
