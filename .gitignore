@@ -32,3 +32,6 @@ Thumbs.db
 *.iml
 
 .vscode/
+
+# Ruff cache
+.ruff_cache/

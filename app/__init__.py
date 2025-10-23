@@ -1,12 +1,14 @@
 import os
 from flask import Flask, render_template
 
+
 def create_app(test_config: dict | None = None) -> Flask:
     """Create and configure the Flask app."""
     app = Flask(__name__, instance_relative_config=True)
 
     # Load environment-based settings
     from .config import DevelopmentConfig, ProductionConfig, TestingConfig
+
     env = os.getenv("FLASK_ENV") or os.getenv("APP_ENV") or "production"
     if test_config is not None and test_config.get("TESTING"):
         app.config.from_object(TestingConfig)
