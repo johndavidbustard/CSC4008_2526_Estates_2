@@ -21,5 +21,5 @@
 
 ## Quality checks
 
-- Pre-commit (Ruff lint/format): `pre-commit run --all-files`
+- Pre-commit (Ruff lint/format): `pre-commit install` (should run automatically)
 - Tests: `pytest -q`
