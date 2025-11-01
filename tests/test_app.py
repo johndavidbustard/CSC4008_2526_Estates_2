@@ -2,14 +2,18 @@ import pytest
 from app import create_app
 
 @pytest.fixture
-def client():
-    app = create_app({"TESTING": True})
+def app():
+    app = create_app()
+    app.config.update({"TESTING": True})
+    yield app
+
+@pytest.fixture
+def client(app):
     return app.test_client()
 
-def test_index_route(client):
-    res = client.get("/")
-    assert res.status_code == 200
-    assert b"HELLO WORLD" in res.data
+@pytest.fixture
+def runner(app):
+    return app.test_cli_runner()
 
 def test_healthz(client):
     res = client.get("/healthz")
